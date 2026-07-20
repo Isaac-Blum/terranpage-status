@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Status · TerranPage</title>
+    <meta
+      name="description"
+      content="TerranPage service status — hand-posted incidents and automated alarm signals, hosted off the product AWS stack."
+    />
+    <link rel="canonical" href="https://status.terranpage.com/" />
+    <meta property="og:title" content="Status · TerranPage" />
+    <meta
+      property="og:description"
+      content="TerranPage service status — hand-posted incidents and automated alarm signals."
+    />
+    <meta property="og:url" content="https://status.terranpage.com/" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="brand" href="https://terranpage.com/">TerranPage</a>
+      <nav aria-label="Product">
+        <a href="https://terranpage.com/security">Security</a>
+        <a href="https://terranpage.com/support">Support</a>
+        <a href="https://terranpage.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <p class="eyebrow">Service status</p>
+      <h1 id="overall-title">Loading status…</h1>
+      <p id="overall-blurb" class="lede"></p>
+      <p id="updated" class="meta"></p>
+
+      <section aria-labelledby="components-heading">
+        <h2 id="components-heading">Components</h2>
+        <ul id="components" class="components"></ul>
+      </section>
+
+      <section aria-labelledby="incidents-heading">
+        <h2 id="incidents-heading">Incidents</h2>
+        <div id="incidents"></div>
+      </section>
+
+      <section aria-labelledby="signals-heading">
+        <h2 id="signals-heading">Automated signals</h2>
+        <p class="note">
+          Alarm-driven signals from product heartbeats, email-delivery reputation,
+          and API/data-plane monitors. Cleared when the matching alarm returns to OK.
+        </p>
+        <div id="signals"></div>
+      </section>
+
+      <p id="history-note" class="note history"></p>
+    </main>
+
+    <footer>
+      <p>
+        Hosted on GitHub Pages — independent of the TerranPage AWS origin.
+        <a href="https://terranpage.com/">terranpage.com</a>
+      </p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

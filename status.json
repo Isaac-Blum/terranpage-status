@@ -1,0 +1,28 @@
+{
+  "updated_at": "2026-07-20T19:45:00Z",
+  "product": "TerranPage",
+  "description": "Public status for TerranPage. This site is hosted on GitHub Pages, independent of the product AWS stack, so it can stay reachable during an origin outage.",
+  "components": [
+    {
+      "id": "api",
+      "name": "API and console",
+      "status": "operational",
+      "description": "HTTPS API, web console, and ingest."
+    },
+    {
+      "id": "email_delivery",
+      "name": "Email delivery",
+      "status": "operational",
+      "description": "Outbound paging email and delivery receipts."
+    },
+    {
+      "id": "sign_in",
+      "name": "Sign-in",
+      "status": "operational",
+      "description": "OIDC sign-in and session mint."
+    }
+  ],
+  "incidents": [],
+  "signals": [],
+  "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them."
+}

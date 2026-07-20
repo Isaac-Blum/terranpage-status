@@ -1,0 +1,43 @@
+name: Update status signals
+
+# MKT-36: automated signals for the public status page.
+# - schedule: external /livez probe (works even when AWS origin alarms cannot fan out)
+# - repository_dispatch: CloudWatch alarm → GitHub bridge from the pager stack
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  repository_dispatch:
+    types: [cloudwatch-alarm]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: status-signals
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply livez + dispatch signals
+        env:
+          LIVEZ_URL: https://terranpage.com/livez
+          DISPATCH_CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: python3 scripts/apply_signals.py
+
+      - name: Commit status.json when changed
+        run: |
+          if git diff --quiet -- status.json; then
+            echo "status.json unchanged"
+            exit 0
+          fi
+          git config user.name "terranpage-status-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status.json
+          git commit -m "chore(status): refresh automated signals"
+          git push
