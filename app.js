@@ -176,6 +176,17 @@
       document.getElementById("updated").textContent = data.updated_at
         ? "Last updated " + formatWhen(data.updated_at)
         : "";
+      const stale = document.getElementById("stale-banner");
+      if (data.updated_at) {
+        const ageMs = Date.now() - new Date(data.updated_at).getTime();
+        if (Number.isFinite(ageMs) && ageMs > 20 * 60 * 1000) {
+          stale.hidden = false;
+          stale.textContent =
+            "Automated signals may be stale (last refresh more than 20 minutes ago). Hand-posted incidents above remain authoritative.";
+        } else {
+          stale.hidden = true;
+        }
+      }
       document.getElementById("history-note").textContent =
         data.history_note || "";
       renderComponents(components);

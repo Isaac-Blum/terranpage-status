@@ -32,7 +32,6 @@ ALARM_MAP: list[tuple[str, str, str]] = [
     ("ses-reputation-bounce", "email_delivery", "degraded"),
     ("ses-reputation-complaint", "email_delivery", "degraded"),
     ("receipt-undeliverable", "email_delivery", "degraded"),
-    ("login-failed-spike", "sign_in", "degraded"),
 ]
 
 COMPONENT_NAMES = {

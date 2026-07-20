@@ -16,7 +16,8 @@ permissions:
 
 concurrency:
   group: status-signals
-  cancel-in-progress: true
+  # Do not cancel — schedule + dispatch must not drop in-flight status.json commits.
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -40,4 +41,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add status.json
           git commit -m "chore(status): refresh automated signals"
-          git push
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "push rejected (attempt ${attempt}); rebase and retry"
+            git pull --rebase origin main
+          done
+          echo "push failed after retries" >&2
+          exit 1

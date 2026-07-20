@@ -201,6 +201,14 @@ h2 {
   border-top: 1px solid var(--line);
 }
 
+.stale {
+  color: var(--warn);
+  background: var(--warn-bg);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 180, 84, 0.35);
+}
+
 footer {
   border-top: 1px solid var(--line);
   padding: 1.25rem 1.5rem 2rem;
