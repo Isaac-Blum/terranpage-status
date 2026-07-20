@@ -49,7 +49,11 @@ def _probe_livez(url: str) -> dict[str, Any] | None:
     try:
         req = urllib.request.Request(url, method="GET")
         with urllib.request.urlopen(req, timeout=10) as resp:
+            body = resp.read(200).decode("utf-8", errors="replace")
             if 200 <= resp.status < 300:
+                return None
+            # Some edge paths return a non-2xx with an explicit healthy body.
+            if '"status":"ok"' in body.replace(" ", ""):
                 return None
             return {
                 "id": "livez-probe",
@@ -61,6 +65,24 @@ def _probe_livez(url: str) -> dict[str, Any] | None:
                 "since": _now(),
                 "summary": f"External /livez probe returned HTTP {resp.status}.",
             }
+    except urllib.error.HTTPError as exc:
+        body = ""
+        try:
+            body = exc.read(200).decode("utf-8", errors="replace")
+        except Exception:  # noqa: BLE001
+            body = ""
+        if '"status":"ok"' in body.replace(" ", ""):
+            return None
+        return {
+            "id": "livez-probe",
+            "alarm_name": "external-livez-probe",
+            "component": "api",
+            "component_name": COMPONENT_NAMES["api"],
+            "state": "ALARM",
+            "severity": "major_outage",
+            "since": _now(),
+            "summary": f"External /livez probe returned HTTP {exc.code}.",
+        }
     except Exception as exc:  # noqa: BLE001 — surface any probe failure as signal
         return {
             "id": "livez-probe",
