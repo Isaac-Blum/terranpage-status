@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-21T22:30:11Z",
+  "updated_at": "2026-07-21T22:55:20Z",
   "product": "TerranPage",
   "description": "Public status for TerranPage. This site is hosted on GitHub Pages, independent of the product AWS stack, so it can stay reachable during an origin outage.",
   "components": [
