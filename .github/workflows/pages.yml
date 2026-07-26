@@ -1,8 +1,19 @@
 name: Deploy GitHub Pages
 
+# FB2-09: a bot-authored push (the update-status.yml signal-refresh commit,
+# made with the default GITHUB_TOKEN) does not trigger this workflow's own
+# `on: push` — GitHub suppresses push-triggered workflows for commits made
+# by the default token, to prevent infinite trigger loops. That silently
+# froze the deployed site at whatever commit last had a human-authored push,
+# while status.json kept advancing on `main` underneath it. `workflow_run`
+# fires on completion of another workflow regardless of which token authored
+# the commits inside it, so it is not subject to that suppression.
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["Update status signals"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -16,12 +27,15 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

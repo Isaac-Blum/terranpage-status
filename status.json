@@ -1,7 +1,7 @@
 {
   "updated_at": "2026-07-26T08:54:41Z",
   "product": "TerranPage",
-  "description": "Public status for TerranPage. This site is hosted on GitHub Pages, independent of the product AWS stack, so it can stay reachable during an origin outage.",
+  "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
     {
       "id": "api",
