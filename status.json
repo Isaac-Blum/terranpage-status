@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-21T06:55:04Z",
+  "updated_at": "2026-08-21T06:56:03Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -23,17 +23,6 @@
     }
   ],
   "incidents": [],
-  "signals": [
-    {
-      "id": "pager-prod-invoke-dlq-arrival-rate",
-      "alarm_name": "pager-prod-invoke-dlq-arrival-rate",
-      "component": "api",
-      "component_name": "API and console",
-      "state": "ALARM",
-      "severity": "degraded",
-      "since": "2026-08-21T06:54:55.475+0000",
-      "summary": "Threshold Crossed: 1 datapoint [1.0 (21/08/26 06:51:00)] was greater than or equal to the threshold (1.0)."
-    }
-  ],
+  "signals": [],
   "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them."
 }
