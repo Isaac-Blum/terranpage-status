@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T16:24:57Z",
+  "updated_at": "2026-10-24T16:25:15Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -32,16 +32,6 @@
       "state": "ALARM",
       "severity": "degraded",
       "since": "2026-10-24T16:23:00.848+0000",
-      "summary": "Threshold Crossed: 1 datapoint [1.0 (24/10/26 16:21:00)] was greater than or equal to the threshold (1.0)."
-    },
-    {
-      "id": "pager-prod-invoke-dlq-arrival-rate",
-      "alarm_name": "pager-prod-invoke-dlq-arrival-rate",
-      "component": "api",
-      "component_name": "API and console",
-      "state": "ALARM",
-      "severity": "degraded",
-      "since": "2026-10-24T16:24:07.983+0000",
       "summary": "Threshold Crossed: 1 datapoint [1.0 (24/10/26 16:21:00)] was greater than or equal to the threshold (1.0)."
     }
   ],
