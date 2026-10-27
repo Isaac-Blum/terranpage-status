@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27T03:31:10Z",
+  "updated_at": "2026-10-27T03:35:12Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -43,16 +43,6 @@
       "severity": "degraded",
       "since": "2026-10-24T16:51:07.983+0000",
       "summary": "Threshold Crossed: 1 datapoint [1.0 (24/10/26 16:48:00)] was greater than or equal to the threshold (1.0)."
-    },
-    {
-      "id": "pager-prod-http-api-latency-p99",
-      "alarm_name": "pager-prod-http-api-latency-p99",
-      "component": "api",
-      "component_name": "API and console",
-      "state": "ALARM",
-      "severity": "degraded",
-      "since": "2026-10-27T03:31:02.004+0000",
-      "summary": "Threshold Crossed: 1 datapoint [10314.18110734841 (27/10/26 03:26:00)] was greater than or equal to the threshold (10000.0)."
     }
   ],
   "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them."
