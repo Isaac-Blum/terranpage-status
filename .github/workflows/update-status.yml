@@ -3,6 +3,24 @@ name: Update status signals
 # MKT-36: automated signals for the public status page.
 # - schedule: external /livez probe (works even when AWS origin alarms cannot fan out)
 # - repository_dispatch: CloudWatch alarm → GitHub bridge from the pager stack
+#
+# TP-31: no dispatched signal is lost, however many arrive together.
+#
+# GitHub keeps at most one waiting run per concurrency group; a newer one
+# replaces it and the replaced run is cancelled before any step runs. A signal
+# that lives only in the payload of its own run is lost with it. So the work is
+# two jobs:
+#
+#   record  no lock. Every dispatch run starts it at once and writes its payload
+#           to its own git ref (scripts/record_signal.sh), which survives the run.
+#   apply   one at a time (the concurrency group). Reads every recorded signal
+#           and not only its own, applies them to status.json, pushes, and then
+#           deletes the refs it applied (scripts/commit_status.sh).
+#
+# A waiting apply job that is replaced loses nothing: the job that replaced it
+# is newer, starts after the running one finishes, and applies the refs of all
+# the runs before it. Schedule and manual runs apply whatever is recorded too, so
+# a signal whose apply job failed is retried within 5 minutes.
 
 on:
   schedule:
@@ -14,33 +32,54 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: status-signals
-  # Do not cancel — schedule + dispatch must not drop in-flight status.json commits.
-  # The group runs one update at a time, in arrival order, so an OK that follows an
-  # ALARM for the same alarm is applied after it. It does not make a run read the
-  # newest status.json or survive a push that lost a race: scripts/commit_status.sh
-  # does that. (GitHub keeps one pending run per group: a third dispatch that
-  # arrives while one runs and one waits replaces the waiting one.)
-  cancel-in-progress: false
-
 jobs:
-  update:
+  record:
+    name: record
+    if: github.event_name == 'repository_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Record the dispatched signal
+        env:
+          DISPATCH_CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: |
+          git config user.name "terranpage-status-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          scripts/record_signal.sh
+
+  apply:
+    name: apply
+    needs: record
+    # Also when record was skipped (schedule, manual) or failed: the signals that
+    # are already recorded still have to be applied, and a failed record job
+    # still fails the run.
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: status-signals
+      # Do not cancel a job that is applying — it may be mid-push. The group runs
+      # one apply at a time, in arrival order. It keeps one waiting job and
+      # cancels an older waiting one; that is safe because the signals are
+      # recorded, not carried by the job (see above).
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
         with:
           # The branch tip when this job starts, not the commit that was main
           # when the event fired (the default for schedule and
-          # repository_dispatch). The concurrency group above holds a run until
-          # the one before it has finished and pushed; checking out the event's
-          # commit would start that run from a status.json that is already stale.
+          # repository_dispatch). The concurrency group holds this job until the
+          # one before it has finished and pushed; checking out the event's
+          # commit would start from a status.json that is already stale.
           ref: main
 
-      - name: Apply livez + dispatch signals and push status.json
+      - name: Apply recorded signals + livez and push status.json
         env:
           LIVEZ_URL: https://terranpage.com/livez
-          DISPATCH_CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
           git config user.name "terranpage-status-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
