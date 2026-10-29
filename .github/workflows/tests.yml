@@ -1,0 +1,23 @@
+name: Tests
+
+# scripts/commit_status.sh (the status.json push loop) runs against a real bare
+# repository in tests/. update-status.yml pushes with the default token, which
+# does not trigger this workflow, so it runs for pull requests and human pushes.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run the tests
+        run: python3 -m unittest discover -s tests -v
