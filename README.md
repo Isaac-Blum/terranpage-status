@@ -50,6 +50,16 @@ Set `resolved_at` when the incident ends. Keep copy factual — no invented SLAs
 
 `scripts/apply_signals.py` merges those into `status.json` → `signals[]`.
 
+`.github/workflows/update-status.yml` runs one update at a time (concurrency group
+`status-signals`) and checks out the tip of `main` when its job starts.
+`scripts/commit_status.sh` applies the signals and pushes; when the push is rejected
+because `status.json` changed in the meantime, it takes the new tip and applies the
+same signals to that file again (a rebase would conflict on `updated_at` and
+`signals`). Two alarms seconds apart both land. GitHub keeps one waiting run per
+group, so a third dispatch that arrives while one run is going and one is waiting
+replaces the waiting one. `python3 -m unittest discover -s tests` runs the push
+loop against a local bare repository.
+
 ## Local preview
 
 Open `index.html` via any static file server from this directory (it fetches `./status.json`).

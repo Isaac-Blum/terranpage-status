@@ -17,6 +17,11 @@ permissions:
 concurrency:
   group: status-signals
   # Do not cancel — schedule + dispatch must not drop in-flight status.json commits.
+  # The group runs one update at a time, in arrival order, so an OK that follows an
+  # ALARM for the same alarm is applied after it. It does not make a run read the
+  # newest status.json or survive a push that lost a race: scripts/commit_status.sh
+  # does that. (GitHub keeps one pending run per group: a third dispatch that
+  # arrives while one runs and one waits replaces the waiting one.)
   cancel-in-progress: false
 
 jobs:
@@ -24,29 +29,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # The branch tip when this job starts, not the commit that was main
+          # when the event fired (the default for schedule and
+          # repository_dispatch). The concurrency group above holds a run until
+          # the one before it has finished and pushed; checking out the event's
+          # commit would start that run from a status.json that is already stale.
+          ref: main
 
-      - name: Apply livez + dispatch signals
+      - name: Apply livez + dispatch signals and push status.json
         env:
           LIVEZ_URL: https://terranpage.com/livez
           DISPATCH_CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
-        run: python3 scripts/apply_signals.py
-
-      - name: Commit status.json when changed
         run: |
-          if git diff --quiet -- status.json; then
-            echo "status.json unchanged"
-            exit 0
-          fi
           git config user.name "terranpage-status-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add status.json
-          git commit -m "chore(status): refresh automated signals"
-          for attempt in 1 2 3; do
-            if git push; then
-              exit 0
-            fi
-            echo "push rejected (attempt ${attempt}); rebase and retry"
-            git pull --rebase origin main
-          done
-          echo "push failed after retries" >&2
-          exit 1
+          scripts/commit_status.sh
