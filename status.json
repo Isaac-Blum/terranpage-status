@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-29T03:48:16Z",
+  "updated_at": "2026-10-29T03:56:48Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -26,30 +26,6 @@
   "signals": [],
   "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them.",
   "signal_seq": {
-    "zz-burst-proof-6-throttled-requests": {
-      "seq": 40808648847,
-      "at": "2026-10-29T02:49:56Z"
-    },
-    "zz-burst-proof-3-throttled-requests": {
-      "seq": 40808649011,
-      "at": "2026-10-29T02:49:56Z"
-    },
-    "zz-burst-proof-5-throttled-requests": {
-      "seq": 40808649041,
-      "at": "2026-10-29T02:49:56Z"
-    },
-    "zz-burst-proof-4-throttled-requests": {
-      "seq": 40808649094,
-      "at": "2026-10-29T02:49:56Z"
-    },
-    "zz-burst-proof-2-throttled-requests": {
-      "seq": 40808649156,
-      "at": "2026-10-29T02:49:56Z"
-    },
-    "zz-burst-proof-1-throttled-requests": {
-      "seq": 40808650002,
-      "at": "2026-10-29T02:49:56Z"
-    },
     "pager-prod-http-api-5xx": {
       "seq": 40810085418,
       "at": "2026-10-29T03:05:09Z"
