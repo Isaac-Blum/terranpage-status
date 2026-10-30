@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T03:17:17Z",
+  "updated_at": "2026-10-30T03:29:42Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -23,17 +23,6 @@
     }
   ],
   "incidents": [],
-  "signals": [
-    {
-      "id": "livez-probe",
-      "alarm_name": "external-livez-probe",
-      "component": "api",
-      "component_name": "API and console",
-      "state": "ALARM",
-      "severity": "major_outage",
-      "since": "2026-10-30T03:17:28Z",
-      "summary": "External /livez probe failed: TimeoutError."
-    }
-  ],
+  "signals": [],
   "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them."
 }
