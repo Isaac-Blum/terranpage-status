@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-03T21:21:32Z",
+  "updated_at": "2026-11-03T21:29:55Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -24,11 +24,5 @@
   ],
   "incidents": [],
   "signals": [],
-  "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them.",
-  "signal_seq": {
-    "pager-prod-http-api-latency-p99": {
-      "seq": 41712458157,
-      "at": "2026-11-03T20:26:33Z"
-    }
-  }
+  "history_note": "We do not publish fabricated uptime percentages or SLA badges. This page shows hand-posted incident updates plus automated alarm signals when the product control plane can report them."
 }
