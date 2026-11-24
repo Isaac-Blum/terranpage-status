@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-24T15:06:13Z",
+  "updated_at": "2026-11-24T15:07:55Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -41,18 +41,8 @@
       "component_name": "API and console",
       "state": "ALARM",
       "severity": "major_outage",
-      "since": "2026-11-24T15:06:14Z",
+      "since": "2026-11-24T15:07:55Z",
       "summary": "External /livez probe returned HTTP 429."
-    },
-    {
-      "id": "pager-prod-invoke-dlq-arrival-rate",
-      "alarm_name": "pager-prod-invoke-dlq-arrival-rate",
-      "component": "api",
-      "component_name": "API and console",
-      "state": "ALARM",
-      "severity": "degraded",
-      "since": "2026-11-24T15:04:33.325+0000",
-      "summary": "Threshold Crossed: 1 datapoint [1.0 (24/11/26 15:01:00)] was greater than or equal to the threshold (1.0)."
     },
     {
       "id": "pager-prod-api-sweep-heartbeat",
@@ -82,8 +72,8 @@
       "at": "2026-11-24T14:23:49Z"
     },
     "pager-prod-invoke-dlq-arrival-rate": {
-      "seq": 45421273065,
-      "at": "2026-11-24T15:04:56Z"
+      "seq": 45421857352,
+      "at": "2026-11-24T15:07:55Z"
     },
     "pager-prod-api-sweep-heartbeat": {
       "seq": 45421374336,
