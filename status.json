@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T20:45:42Z",
+  "updated_at": "2026-11-25T20:53:52Z",
   "product": "TerranPage",
   "description": "Current status of the TerranPage API and console, email delivery, and sign-in. This page stays available during a terranpage.com outage.",
   "components": [
@@ -41,7 +41,7 @@
       "component_name": "API and console",
       "state": "ALARM",
       "severity": "major_outage",
-      "since": "2026-11-25T20:45:42Z",
+      "since": "2026-11-25T20:53:52Z",
       "summary": "External /livez probe returned HTTP 429."
     },
     {
